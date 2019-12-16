@@ -42,12 +42,17 @@ public class ReplaceStrings
         public void Write(char c, TextWriter writeOut)
         {
             bool matched = false;
+            bool alreadyAdded = false;
             for (int i=0;i<searchStrings.Count;i++)
             {
                 if (searchStrings[i][indices[i]] == c)
                 {
                     matched = true;
-                    sb.Append(c);
+                    if (!alreadyAdded)
+                    {
+                        sb.Append(c);
+                        alreadyAdded = true;
+                    }
                     if (++indices[i] >= searchStrings[i].Length)
                     {
                         writeOut.Write(replaceString);
@@ -242,6 +247,7 @@ public class ReplaceStrings
             switch(state)
             {
                 case 2:
+                    //this case should be extended to implement recognition of more escape sequences
                     switch(c)
                     {
                         case 'r':
